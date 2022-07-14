@@ -28,11 +28,11 @@
 
 module.exports = (sequelize, DataTypes) => {
   const Sales = sequelize.define('Sales', {
-    total_price: DataTypes.NUMBER,
-    delivery_address: DataTypes.STRING,
-    delivery_number: DataTypes.STRING,
+    total_price: DataTypes.DECIMAL(9,2),
+    delivery_address: DataTypes.STRING(100),
+    delivery_number: DataTypes.STRING(50),
     sale_date: DataTypes.DATE,
-    status: DataTypes.STRING
+    status: DataTypes.STRING(50)
   },
   {
     timestamps: false,
@@ -45,5 +45,5 @@ module.exports = (sequelize, DataTypes) => {
     Sales.belongToMany(models.Sales,
       {foreignKey: 'sellerId', as: 'user'})
   };
-  return Products;
+  return Sales;
 };

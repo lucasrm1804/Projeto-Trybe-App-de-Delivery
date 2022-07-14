@@ -24,7 +24,9 @@
 
 module.exports = (sequelize, DataTypes) => {
   const SalesProducts = sequelize.define('SalesProducts', {
-    quantity: DataTypes.NUMBER
+    quantity: DataTypes.INTEGER,
+    saleId: DataTypes.INTEGER,
+    productId: DataTypes.INTEGER,
   },
   {
     timestamps: false,
@@ -33,5 +35,5 @@ module.exports = (sequelize, DataTypes) => {
     SalesProducts.hasMany(models.Products,
       {foreignKey: 'productId', as: 'Product'})
   };
-  return Products;
+  return SalesProducts;
 };

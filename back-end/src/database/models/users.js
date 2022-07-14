@@ -23,22 +23,22 @@
 // };
 
 module.exports = (sequelize, DataTypes) => {
-  const users = sequelize.define('users', {
-    name: DataTypes.STRING,
-    email: DataTypes.STRING,
-    password: DataTypes.STRING,
-    role: DataTypes.STRING,
+  const users = sequelize.define('Users', {
+    name: DataTypes.STRING(100),
+    email: DataTypes.STRING(100),
+    password: DataTypes.STRING(32),
+    role: DataTypes.STRING(20),
   },
   {
     timestamps: false,
   });
   users.associate = (models) => {
     users.hasMany(models.Sales,
-      {foreignKey: 'userId', as: 'Sale'})
+      {foreignKey: 'userId', as: 'Sales'})
   };
   users.associate = (models) => {
     users.hasMany(models.Sales,
-      {foreignKey: 'sellerId', as: 'Sale'})
+      {foreignKey: 'sellerId', as: 'Sales'})
   };
   return Products;
 };
