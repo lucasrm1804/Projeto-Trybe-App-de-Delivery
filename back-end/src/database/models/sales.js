@@ -48,5 +48,5 @@ module.exports = (sequelize, DataTypes) => {
     Sale.belongTo(models.User,
       {foreignKey: 'sellerId', as: 'User'})
   };
-  return Products;
+  return Sales;
 };
