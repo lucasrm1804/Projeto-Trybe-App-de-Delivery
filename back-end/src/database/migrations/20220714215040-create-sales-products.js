@@ -5,15 +5,15 @@ module.exports = {
       sale_id: {
         allowNull: false,
         type: Sequelize.INTEGER,
-        references: { model: 'sales', key: 'id' },
+        references: { model: 'Sales', key: 'id' },
       },
       product_id: {
         allowNull: false,
         type: Sequelize.INTEGER,
-        references: { model: 'products', key: 'id' },
+        references: { model: 'Products', key: 'id' },
       },
       quantity: {
-        type: Sequelize.NUMBER
+        type: Sequelize.INTEGER
       },
       // createdAt: {
       //   allowNull: false,
