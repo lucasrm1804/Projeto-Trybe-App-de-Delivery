@@ -19,28 +19,25 @@ module.exports = {
         references: { model: 'users', key: 'id' },
       },
       total_price: {
-        type: Sequelize.NUMBER
+        type: Sequelize.DECIMAL(9,2),
+        allowNull: false,
       },
       delivery_address: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(100),
+        allowNull: false,
       },
       delivery_number: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(50),
+        allowNull: false,
       },
       sale_date: {
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        allowNull: false,
       },
       status: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(50),
+        allowNull: false,
       },
-      // createdAt: {
-      //   allowNull: false,
-      //   type: Sequelize.DATE
-      // },
-      // updatedAt: {
-      //   allowNull: false,
-      //   type: Sequelize.DATE
-      // }
     });
   },
   async down(queryInterface, Sequelize) {
