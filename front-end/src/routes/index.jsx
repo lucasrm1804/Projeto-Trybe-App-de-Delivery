@@ -7,7 +7,7 @@ export default function Routes() {
     <Switch>
       <Route path="/login" component={ Login } />
       <Route exact path="/">
-        { <Redirect to="/login" /> }
+        <Redirect to="/login" />
       </Route>
     </Switch>
   );
