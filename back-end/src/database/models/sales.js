@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  const Sale = sequelize.define('Sale', {
+  const Sales = sequelize.define('Sale', {
     totalPrice: DataTypes.NUMBER,
     deliveryAddress: DataTypes.STRING,
     deliveryNumber: DataTypes.STRING,
@@ -12,12 +12,12 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: false,
     underscored: true,
   });
-  Sale.associate = (models) => {
-    Sale.belongTo(models.User,
+  Sales.associate = (models) => {
+    Sales.belongsTo(models.User,
       {foreignKey: 'userId', as: 'User'})
   };
-  Sale.associate = (models) => {
-    Sale.belongTo(models.User,
+  Sales.associate = (models) => {
+    Sales.belongsTo(models.User,
       {foreignKey: 'sellerId', as: 'User'})
   };
   return Sales;
