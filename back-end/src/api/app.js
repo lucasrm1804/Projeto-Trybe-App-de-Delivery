@@ -1,6 +1,6 @@
-const register = require('../routes/register');
-
 const express = require('express');
+
+const register = require('../routes/register');
 
 const app = express();
 

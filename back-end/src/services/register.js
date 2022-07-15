@@ -1,4 +1,4 @@
-const models = require('../database/models')
+const models = require('../database/models');
 
 const registerUser = async ({ name, email, password, role }) => {
   try {
