@@ -27,23 +27,26 @@
 // };
 
 module.exports = (sequelize, DataTypes) => {
-  const Sales = sequelize.define('Sales', {
-    total_price: DataTypes.NUMBER,
-    delivery_address: DataTypes.STRING,
-    delivery_number: DataTypes.STRING,
-    sale_date: DataTypes.DATE,
-    status: DataTypes.STRING
+  const Sale = sequelize.define('Sale', {
+    totalPrice: DataTypes.NUMBER,
+    deliveryAddress: DataTypes.STRING,
+    deliveryNumber: DataTypes.STRING,
+    saleDate: DataTypes.DATE,
+    status: DataTypes.STRING,
+    userId: DataTypes.INTEGER,
+    sellerId: DataTypes.INTEGER,
   },
   {
     timestamps: false,
+    underscored: true,
   });
-  Sales.associate = (models) => {
-    Sales.belongToMany(models.users,
-      {foreignKey: 'userId', as: 'user'})
+  Sale.associate = (models) => {
+    Sale.belongTo(models.User,
+      {foreignKey: 'userId', as: 'User'})
   };
-  Sales.associate = (models) => {
-    Sales.belongToMany(models.Sales,
-      {foreignKey: 'sellerId', as: 'user'})
+  Sale.associate = (models) => {
+    Sale.belongTo(models.User,
+      {foreignKey: 'sellerId', as: 'User'})
   };
-  return Products;
+  return Sales;
 };
