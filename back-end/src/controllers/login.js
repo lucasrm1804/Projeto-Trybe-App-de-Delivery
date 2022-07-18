@@ -1,17 +1,22 @@
-const loginService = require('../services/login');
+const loginUser = require('../services/login');
+const token = require('../middleware/login.JWT');
 
-// const BAD_REQUEST = 400;
 const OK = 200;
+const INTERNAL_ERROR = 500;
 
-async function loginController(req, res) {
-    const { email, password } = req.body;
-try {
-    const result = await loginService.loginUser(email, password);
-    return res.status(OK).json({ result });
+const loginController = async (req, res) => {
+    try {
+        const result = await loginUser(req.body);
+        const { email, name, role } = result;
+        return res.status(OK).json({
+            name,
+            email,
+            role,
+            token: token(email)
+        });
     } catch (error) {
-    console.error(error);
-    next(error);
+        return res.status(INTERNAL_ERROR).json({ message: 'error' });
     }
-}
+};
 
-module.exports = { loginController };
+module.exports = loginController;
