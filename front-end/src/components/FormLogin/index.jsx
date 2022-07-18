@@ -1,4 +1,5 @@
 import React from 'react';
+import ButtonForm from '../ButtonForm';
 import InputForm from '../InputForm';
 
 export default function FormLogin() {
@@ -20,18 +21,14 @@ export default function FormLogin() {
         name="password"
         type="password"
       />
-      <button
-        type="button"
-        data-testid="common_login__button-login"
-      >
-        LOGIN
-      </button>
-      <button
-        type="button"
-        data-testid="common_login__button-register"
-      >
-        Ainda não tenho conta
-      </button>
+      <ButtonForm
+        datatest="common_login__button-login"
+        name="Login"
+      />
+      <ButtonForm
+        datatest="common_login__button-register"
+        name="Ainda não tenho conta"
+      />
     </form>
   );
 }
