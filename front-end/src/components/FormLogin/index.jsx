@@ -8,11 +8,8 @@ export default function FormLogin() {
   const [redirect, setRedirect] = React.useState(false);
 
   const handleClick = () => {
-    console.log(redirect);
     setRedirect(true);
   };
-
-  // const handleClick = () => <Redirect push to="/register" />;
 
   return (
     <form>
@@ -48,7 +45,6 @@ export default function FormLogin() {
             >
               Ainda não tenho conta
             </button>
-
           </>
         )
       }
