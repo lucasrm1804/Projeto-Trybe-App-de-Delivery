@@ -2,7 +2,7 @@ const loginUser = require('../services/login');
 const token = require('../middleware/login.JWT');
 
 const OK = 200;
-const ERROR = 400;
+const ERROR = 404;
 const INTERNAL_ERROR = 500;
 
 const loginController = async (req, res) => {
