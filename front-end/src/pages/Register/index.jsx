@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-// import { Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 // import InputForm from '../../../components/InputForm/index';
 // import ButtonForm from '../../../components/ButtonForm/index';
 
@@ -9,9 +9,10 @@ export default function Register() {
   const [setUser] = React.useState(['']);
   const [name, setName] = React.useState('');
   const [email, setEmail] = React.useState('');
-  const [password, setPassword] = React.useState(false);
+  const [password, setPassword] = React.useState('');
   const [error, setError] = React.useState('');
   const [isError, setIsError] = React.useState(false);
+  const [isDisabled, setIsDisabled] = React.useState(true);
 
   async function create() {
     axios.post('http://localhost:3001/register', {
@@ -22,16 +23,27 @@ export default function Register() {
       setUser(newUser.data);
     }).catch((err) => {
       setIsError(true);
-      console.log(err.response.data.message);
       setError(err.response.data.message);
     });
   }
 
+  const handleButton = () => {
+    const re = /\S+@\S+\.\S+/;
+    const doze = 12;
+    const seis = 6;
+    if (name.length > doze && re.test(email) && password.length >= seis) {
+      return setIsDisabled(false);
+    }
+    return setIsDisabled(true);
+  };
+
+  React.useEffect(() => {
+    handleButton();
+  }, [name, password, email]);
+
   const handleClick = () => {
     create();
-    // if (user !== '') {
-    //   return <Redirect push to="/customer/products" />;
-    // }
+    // return <Redirect push to="/customer/products" />;
   };
 
   return (
@@ -64,15 +76,23 @@ export default function Register() {
           type="password"
           onChange={ (e) => setPassword(e.target.value) }
         />
-        <button
-          type="button"
-          data-testid="common_register__button-register"
-          onClick={ handleClick }
-        >
-          Cadastrar
-        </button>
+        <Link to="/customer/products">
+          <button
+            disabled={ isDisabled }
+            type="button"
+            data-testid="common_register__button-register"
+            onClick={ handleClick }
+          >
+            Cadastrar
+          </button>
+        </Link>
         {
-          isError ? <p>{ error }</p> : null
+          isError
+            ? (
+              <p data-testid="common_register__element-invalid_register">
+                { error }
+              </p>)
+            : null
         }
       </form>
     </div>
