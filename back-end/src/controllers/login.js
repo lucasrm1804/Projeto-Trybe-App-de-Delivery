@@ -9,7 +9,7 @@ const loginController = async (req, res) => {
     try {
         const result = await loginUser(req.body);
         const { email, name, role } = result;
-        if (!result) {
+        if (result === 0) {
             return res.status(ERROR).json({ message: 'Not found' });
         }
         return res.status(OK).json({
@@ -19,7 +19,7 @@ const loginController = async (req, res) => {
             token: token(email),
         });
     } catch (error) {
-        return res.status(INTERNAL_ERROR).json({ message: 'error' });
+        return res.status(INTERNAL_ERROR).json({ message: `${error}` });
     }
 };
 
