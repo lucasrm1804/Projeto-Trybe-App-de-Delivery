@@ -14,20 +14,6 @@ export default function ProductCards(props) {
       />
       <h2 data-testid={ `customer_products__input-card-title-${id}` }>{name}</h2>
       <button
-        data-testid={ `customer_products__button-card-add-item-${id}` }
-        onClick={ () => {
-          setCount(count + 1);
-        } }
-        type="button"
-      >
-        +
-      </button>
-      <span
-        data-testid={ `customer_products__input-card-quantity-${id}` }
-      >
-        {count}
-      </span>
-      <button
         data-testid={ `customer_products__button-card-rm-item-${id}` }
         onClick={ () => {
           setCount(count - 1);
@@ -35,6 +21,20 @@ export default function ProductCards(props) {
         type="button"
       >
         -
+      </button>
+      <span
+        data-testid={ `customer_products__input-card-quantity-${id}` }
+      >
+        {count}
+      </span>
+      <button
+        data-testid={ `customer_products__button-card-add-item-${id}` }
+        onClick={ () => {
+          setCount(count + 1);
+        } }
+        type="button"
+      >
+        +
       </button>
     </div>
   );
