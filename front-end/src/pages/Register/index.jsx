@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
+import AppContext from '../../context/appContext';
 
 export default function Register() {
   const history = useHistory();
-  const [setUser] = React.useState(['']);
   const [name, setName] = React.useState('');
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
@@ -12,6 +12,7 @@ export default function Register() {
   const [register, setRegister] = React.useState(false);
   const [isError, setIsError] = React.useState(false);
   const [isDisabled, setIsDisabled] = React.useState(true);
+  const { setLoginUser } = useContext(AppContext);
 
   async function create() {
     axios.post('http://localhost:3001/register', {
@@ -19,8 +20,9 @@ export default function Register() {
       email,
       password,
     }).then((newUser) => {
-      setUser(newUser.data);
+      setLoginUser(newUser.data);
       setRegister(true);
+      history.push('/customer/products');
     }).catch((err) => {
       setIsError(true);
       setError(err.response.data.message);
@@ -31,7 +33,7 @@ export default function Register() {
     const re = /\S+@\S+\.\S+/;
     const doze = 12;
     const seis = 6;
-    if (name.length > doze && re.test(email) && password.length >= seis) {
+    if (name.length >= doze && re.test(email) && password.length >= seis) {
       return setIsDisabled(false);
     }
     return setIsDisabled(true);
@@ -39,9 +41,6 @@ export default function Register() {
 
   React.useEffect(() => {
     handleButton();
-    if (isError === true) {
-      return history.push('/customer/products');
-    }
   });
 
   const handleClick = () => {
@@ -49,7 +48,7 @@ export default function Register() {
   };
 
   const messageError = () => {
-    if (isError && register === false) {
+    if (isError === true && register === false) {
       return (
         <p data-testid="common_register__element-invalid_register">
           { error }
@@ -60,13 +59,6 @@ export default function Register() {
 
   return (
     <div>
-      {/* {
-        isError && register === false
-          ? (
-            <p data-testid="common_register__element-invalid_register">
-              { error }
-            </p>)
-          : ( */}
       <form>
         <input
           labelname="Name"
@@ -107,9 +99,6 @@ export default function Register() {
       {
         messageError()
       }
-      {/*
-          )
-      } */}
     </div>
   );
 }
