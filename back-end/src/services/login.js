@@ -4,7 +4,7 @@ const models = require('../database/models');
 const loginUser = async ({ email, password }) => {
     const passwordUser = md5(password);
     const login = await models.User.findOne({ where: { email, password: passwordUser } });
-    if (!login) return null;
+    if (!login) return 0;
     return login;
 };
 
