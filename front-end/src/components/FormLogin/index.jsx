@@ -39,7 +39,7 @@ export default function FormLogin() {
             {/* Alteração feita porque o onCLick não funcionava no componente e a mesma falta em outros */}
             <button
               type="button"
-              datatest="common_login__button-register"
+              data-testid="common_login__button-register"
               // name="Ainda não tenho conta"
               onClick={ handleClick }
             >
