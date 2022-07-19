@@ -1,16 +1,15 @@
 import React from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
-// import InputForm from '../../../components/InputForm/index';
-// import ButtonForm from '../../../components/ButtonForm/index';
+import { useHistory } from 'react-router-dom';
 
 export default function Register() {
-  // const [setRedirect] = React.useState(false);
+  const history = useHistory();
   const [setUser] = React.useState(['']);
   const [name, setName] = React.useState('');
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [error, setError] = React.useState('');
+  const [register, setRegister] = React.useState(false);
   const [isError, setIsError] = React.useState(false);
   const [isDisabled, setIsDisabled] = React.useState(true);
 
@@ -21,6 +20,7 @@ export default function Register() {
       password,
     }).then((newUser) => {
       setUser(newUser.data);
+      setRegister(true);
     }).catch((err) => {
       setIsError(true);
       setError(err.response.data.message);
@@ -39,15 +39,34 @@ export default function Register() {
 
   React.useEffect(() => {
     handleButton();
-  }, [name, password, email]);
+    if (isError === true) {
+      return history.push('/customer/products');
+    }
+  });
 
   const handleClick = () => {
     create();
-    // return <Redirect push to="/customer/products" />;
+  };
+
+  const messageError = () => {
+    if (isError && register === false) {
+      return (
+        <p data-testid="common_register__element-invalid_register">
+          { error }
+        </p>
+      );
+    }
   };
 
   return (
     <div>
+      {/* {
+        isError && register === false
+          ? (
+            <p data-testid="common_register__element-invalid_register">
+              { error }
+            </p>)
+          : ( */}
       <form>
         <input
           labelname="Name"
@@ -76,25 +95,21 @@ export default function Register() {
           type="password"
           onChange={ (e) => setPassword(e.target.value) }
         />
-        <Link to="/customer/products">
-          <button
-            disabled={ isDisabled }
-            type="button"
-            data-testid="common_register__button-register"
-            onClick={ handleClick }
-          >
-            Cadastrar
-          </button>
-        </Link>
-        {
-          isError
-            ? (
-              <p data-testid="common_register__element-invalid_register">
-                { error }
-              </p>)
-            : null
-        }
+        <button
+          disabled={ isDisabled }
+          type="button"
+          data-testid="common_register__button-register"
+          onClick={ handleClick }
+        >
+          Cadastrar
+        </button>
       </form>
+      {
+        messageError()
+      }
+      {/*
+          )
+      } */}
     </div>
   );
 }
