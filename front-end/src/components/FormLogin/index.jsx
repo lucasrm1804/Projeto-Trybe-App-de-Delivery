@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import ButtonForm from '../ButtonForm';
 import InputForm from '../InputForm';
-import dbLogin from '../../services/dbLogin';
 
 export default function FormLogin() {
   const [passwordInput, setPasswordInput] = useState('');
@@ -14,11 +13,6 @@ export default function FormLogin() {
     return emailRegex.test(email);
   };
 
-  const a = {
-    email: 'zebirita@email.com',
-    password: '$#zebirita#$',
-  };
-  console.log(JSON.stringify(a));
   useEffect(() => {
     if (!emailValidation(emailInput)) {
       setEmailInvalid(true);
@@ -40,9 +34,7 @@ export default function FormLogin() {
       setPasswordInput(target.value);
     }
   };
-  useEffect(() => {
-    dbLogin(a).then(() => console.log('abc'));
-  });
+
   const messageError = () => {
     if (emailInvalid || passwordInvalid) {
       return (
