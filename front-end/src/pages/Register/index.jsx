@@ -1,18 +1,18 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
-// import InputForm from '../../../components/InputForm/index';
-// import ButtonForm from '../../../components/ButtonForm/index';
+import { useHistory } from 'react-router-dom';
+import AppContext from '../../context/appContext';
 
 export default function Register() {
-  // const [setRedirect] = React.useState(false);
-  const [setUser] = React.useState(['']);
+  const history = useHistory();
   const [name, setName] = React.useState('');
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [error, setError] = React.useState('');
+  const [register, setRegister] = React.useState(false);
   const [isError, setIsError] = React.useState(false);
   const [isDisabled, setIsDisabled] = React.useState(true);
+  const { setLoginUser } = useContext(AppContext);
 
   async function create() {
     axios.post('http://localhost:3001/register', {
@@ -20,7 +20,9 @@ export default function Register() {
       email,
       password,
     }).then((newUser) => {
-      setUser(newUser.data);
+      setLoginUser(newUser.data);
+      setRegister(true);
+      history.push('/customer/products');
     }).catch((err) => {
       setIsError(true);
       setError(err.response.data.message);
@@ -31,7 +33,7 @@ export default function Register() {
     const re = /\S+@\S+\.\S+/;
     const doze = 12;
     const seis = 6;
-    if (name.length > doze && re.test(email) && password.length >= seis) {
+    if (name.length >= doze && re.test(email) && password.length >= seis) {
       return setIsDisabled(false);
     }
     return setIsDisabled(true);
@@ -39,11 +41,20 @@ export default function Register() {
 
   React.useEffect(() => {
     handleButton();
-  }, [name, password, email]);
+  });
 
   const handleClick = () => {
     create();
-    // return <Redirect push to="/customer/products" />;
+  };
+
+  const messageError = () => {
+    if (isError === true && register === false) {
+      return (
+        <p data-testid="common_register__element-invalid_register">
+          { error }
+        </p>
+      );
+    }
   };
 
   return (
@@ -76,25 +87,18 @@ export default function Register() {
           type="password"
           onChange={ (e) => setPassword(e.target.value) }
         />
-        <Link to="/customer/products">
-          <button
-            disabled={ isDisabled }
-            type="button"
-            data-testid="common_register__button-register"
-            onClick={ handleClick }
-          >
-            Cadastrar
-          </button>
-        </Link>
-        {
-          isError
-            ? (
-              <p data-testid="common_register__element-invalid_register">
-                { error }
-              </p>)
-            : null
-        }
+        <button
+          disabled={ isDisabled }
+          type="button"
+          data-testid="common_register__button-register"
+          onClick={ handleClick }
+        >
+          Cadastrar
+        </button>
       </form>
+      {
+        messageError()
+      }
     </div>
   );
 }
