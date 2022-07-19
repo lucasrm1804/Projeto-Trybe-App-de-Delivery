@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import ButtonForm from '../ButtonForm';
 import InputForm from '../InputForm';
+import AppContext from '../../context/appContext';
 
 export default function FormLogin() {
   const [passwordInput, setPasswordInput] = useState('');
@@ -11,6 +12,8 @@ export default function FormLogin() {
   const [passwordInvalid, setPasswordInvalid] = useState(false);
   const [loginFail, setLoginFail] = useState(false);
   const [loginSuccess, setLoginSuccess] = useState(false);
+  const { setLoginUser } = useContext(AppContext);
+
   const emailValidation = (email) => {
     const emailRegex = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
     return emailRegex.test(email);
@@ -20,7 +23,8 @@ export default function FormLogin() {
     axios.post('http://localhost:3001/login', {
       email: emailInput,
       password: passwordInput,
-    }).then(() => {
+    }).then((response) => {
+      setLoginUser(response.data);
       setLoginSuccess(true);
     })
       .catch(() => setLoginFail(true));
