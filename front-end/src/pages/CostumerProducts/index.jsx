@@ -1,28 +1,41 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from '../../components/Header';
 import ProductCards from '../../components/Cards';
+import FooterProducts from '../../components/FooterProducts';
+import { requestData } from '../../services/requests';
 
 export default function CustomerProducts() {
-  const produtos = [{
-    id: 1,
-    name: 'Skol Lata 250ml',
-    price: 2.20,
-    url_image: 'http://localhost:3001/images/skol_lata_350ml.jpg',
-  }];
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    const endpoint = '/products';
+    if (!products.length) {
+      requestData(endpoint)
+        .then((response) => {
+          setProducts(response);
+        })
+        .catch((error) => console.log(error.response.data.message));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  console.log(products);
 
   return (
     <div>
       <Header />
-      {produtos.map((produto, i) => (
-        <div key={ i }>
-          <ProductCards
-            valor={ produto.price }
-            img={ produto.url_image }
-            name={ produto.name }
-            id={ produto.id }
-          />
-        </div>
-      ))}
+      <div className="CardsContainer">
+        {products && products.map((product, i) => (
+          <div key={ i }>
+            <ProductCards
+              valor={ Number(product.price) }
+              img={ product.urlImage }
+              name={ product.name }
+              id={ product.id }
+            />
+          </div>
+        ))}
+      </div>
+      <FooterProducts />
     </div>
   );
 }
