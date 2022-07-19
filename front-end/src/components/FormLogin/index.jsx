@@ -1,53 +1,78 @@
-import React from 'react';
-// import { useHistory } from 'react-router-dom';
-import { Redirect } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
 import ButtonForm from '../ButtonForm';
 import InputForm from '../InputForm';
 
 export default function FormLogin() {
-  const [redirect, setRedirect] = React.useState(false);
-
-  const handleClick = () => {
-    setRedirect(true);
+  const [passwordInput, setPasswordInput] = useState('');
+  const [emailInput, setEmailInput] = useState('');
+  const [emailInvalid, setEmailInvalid] = useState(false);
+  const [passwordInvalid, setPasswordInvalid] = useState(false);
+  const emailValidation = (email) => {
+    const emailRegex = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+    return emailRegex.test(email);
   };
 
+  useEffect(() => {
+    if (!emailValidation(emailInput)) {
+      setEmailInvalid(true);
+    } else {
+      setEmailInvalid(false);
+    }
+    const six = 6;
+    if (passwordInput.length < six) {
+      setPasswordInvalid(true);
+    } else {
+      setPasswordInvalid(false);
+    }
+  }, [emailInput, passwordInput, passwordInvalid]);
+  const handleChange = ({ target }) => {
+    if (target.type === 'email') {
+      setEmailInput(target.value);
+    }
+    if (target.type === 'password') {
+      setPasswordInput(target.value);
+    }
+  };
+
+  const messageError = () => {
+    if (emailInvalid || passwordInvalid) {
+      return (
+        <span data-testid="common_login__element-invalid-email">
+          Email ou senha invalidos
+        </span>
+      );
+    }
+  };
   return (
     <form>
-      {
-        redirect ? <Redirect to="/register" /> : (
-          <>
-            <InputForm
-              labelName="Login"
-              labelHtml="email"
-              id="email"
-              testId="common_login__input-email"
-              name="email"
-              type="email"
-            />
-            <InputForm
-              labelName="Password"
-              labelHtml="password"
-              id="password"
-              testId="common_login__input-password"
-              name="password"
-              type="password"
-            />
-            <ButtonForm
-              datatest="common_login__button-login"
-              name="Login"
-            />
-            {/* Alteração feita porque o onCLick não funcionava no componente e a mesma falta em outros */}
-            <button
-              type="button"
-              data-testid="common_login__button-register"
-              // name="Ainda não tenho conta"
-              onClick={ handleClick }
-            >
-              Ainda não tenho conta
-            </button>
-          </>
-        )
-      }
+      <InputForm
+        labelName="Login"
+        labelHtml="email"
+        id="email"
+        testId="common_login__input-email"
+        name="email"
+        type="email"
+        handleChange={ handleChange }
+      />
+      <InputForm
+        labelName="Password"
+        labelHtml="password"
+        id="password"
+        testId="common_login__input-password"
+        name="password"
+        type="password"
+        handleChange={ handleChange }
+      />
+      <ButtonForm
+        datatest="common_login__button-login"
+        name="Login"
+        disabled={ emailInvalid || passwordInvalid }
+      />
+      <ButtonForm
+        datatest="common_login__button-register"
+        name="Ainda não tenho conta"
+      />
+      {messageError()}
     </form>
   );
 }

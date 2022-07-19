@@ -1,9 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export default function InputForm({ labelHtml, labelName, type, name, id, testId }) {
+export default function InputForm({
+  labelHtml,
+  labelName,
+  type,
+  name,
+  id,
+  testId,
+  handleChange,
+}) {
   return (
-    // <form>
     <label htmlFor={ labelHtml }>
       {' '}
       {labelName}
@@ -12,6 +19,7 @@ export default function InputForm({ labelHtml, labelName, type, name, id, testId
         name={ name }
         id={ id }
         data-testid={ testId }
+        onChange={ handleChange }
       />
     </label>
   );
@@ -24,4 +32,5 @@ InputForm.propTypes = {
   name: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
   testId: PropTypes.string.isRequired,
+  handleChange: PropTypes.func.isRequired,
 };
