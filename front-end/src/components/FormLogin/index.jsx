@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { NavLink } from 'react-router-dom';
 import ButtonForm from '../ButtonForm';
 import InputForm from '../InputForm';
 
@@ -68,10 +69,14 @@ export default function FormLogin() {
         name="Login"
         disabled={ emailInvalid || passwordInvalid }
       />
-      <ButtonForm
-        datatest="common_login__button-register"
-        name="Ainda não tenho conta"
-      />
+      <NavLink to="/register">
+        <ButtonForm
+          datatest="common_login__button-register"
+          name="Ainda não tenho conta"
+          disabled={ false }
+        />
+      </NavLink>
+
       {messageError()}
     </form>
   );
