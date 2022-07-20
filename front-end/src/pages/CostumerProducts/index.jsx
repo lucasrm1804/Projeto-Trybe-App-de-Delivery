@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../../components/Header';
 import ProductCards from '../../components/Cards';
-import FooterProducts from '../../components/FooterProducts';
 import { requestData } from '../../services/requests';
+import CartButton from '../../components/CartButton';
+import styles from '../../components/Cards/index.module.css';
 
 export default function CustomerProducts() {
   const [products, setProducts] = useState([]);
@@ -21,9 +22,9 @@ export default function CustomerProducts() {
   console.log(products);
 
   return (
-    <div>
+    <>
       <Header />
-      <div className="CardsContainer">
+      <div className={ styles.cardContainer }>
         {products && products.map((product, i) => (
           <div key={ i }>
             <ProductCards
@@ -35,7 +36,7 @@ export default function CustomerProducts() {
           </div>
         ))}
       </div>
-      <FooterProducts />
-    </div>
+      <CartButton />
+    </>
   );
 }

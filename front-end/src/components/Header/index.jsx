@@ -1,14 +1,16 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import styles from './index.module.css';
 
-export default function Header() {
+function Header() {
   return (
-    <nav>
+    <nav className={ styles.navbar }>
       <div data-testid="customer_products__element-navbar-link-products">
-        <span>Produtos</span>
+        <Link to="/customer/products">PRODUTOS</Link>
       </div>
 
       <div data-testid="customer_products__element-navbar-link-orders">
-        <span>Meus pedidos</span>
+        <Link to="/customer/orders">MEUS PEDIDOS</Link>
       </div>
 
       <div data-testid="customer_products__element-navbar-user-full-name">
@@ -16,9 +18,10 @@ export default function Header() {
       </div>
 
       <div data-testid="customer_products__element-navbar-link-logout">
-        <span>Sair</span>
+        <Link to="/login">Sair</Link>
       </div>
-
     </nav>
   );
 }
+
+export default Header;

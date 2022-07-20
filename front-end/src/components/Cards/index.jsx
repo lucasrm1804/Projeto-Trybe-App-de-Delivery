@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import styles from './index.module.css';
 
 export default function ProductCards(props) {
   const { id, valor, img, name } = props;
   const [count, setCount] = useState(0);
   return (
-    <div>
+    <div className={ styles.cardDiv }>
       <span data-testid={ `customer_products__element-card-price-${id}` }>{valor}</span>
       <img
         data-testid={ `customer_products__img-card-bg-image-${id}` }
