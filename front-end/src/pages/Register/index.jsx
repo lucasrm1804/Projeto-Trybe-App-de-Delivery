@@ -2,7 +2,6 @@ import React, { useContext } from 'react';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import AppContext from '../../context/appContext';
-import saveLogin from '../../services/saveLogin';
 
 export default function Register() {
   const history = useHistory();
@@ -13,7 +12,7 @@ export default function Register() {
   const [register, setRegister] = React.useState(false);
   const [isError, setIsError] = React.useState(false);
   const [isDisabled, setIsDisabled] = React.useState(true);
-  const { loginUser, setLoginUser } = useContext(AppContext);
+  const { setLoginUser } = useContext(AppContext);
 
   async function create() {
     axios.post('http://localhost:3001/register', {
@@ -46,7 +45,6 @@ export default function Register() {
 
   const handleClick = () => {
     create();
-    saveLogin(loginUser);
   };
 
   const messageError = () => {
