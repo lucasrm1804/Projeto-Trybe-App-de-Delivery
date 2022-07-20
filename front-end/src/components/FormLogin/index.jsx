@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom';
 import ButtonForm from '../ButtonForm';
 import InputForm from '../InputForm';
 import AppContext from '../../context/appContext';
+import saveLogin from '../../services/saveLogin';
 
 export default function FormLogin() {
   const [passwordInput, setPasswordInput] = useState('');
@@ -12,7 +13,7 @@ export default function FormLogin() {
   const [passwordInvalid, setPasswordInvalid] = useState(false);
   const [loginFail, setLoginFail] = useState(false);
   const [loginSuccess, setLoginSuccess] = useState(false);
-  const { setLoginUser } = useContext(AppContext);
+  const { loginUser, setLoginUser } = useContext(AppContext);
 
   const emailValidation = (email) => {
     const emailRegex = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
@@ -28,6 +29,7 @@ export default function FormLogin() {
       setLoginSuccess(true);
     })
       .catch(() => setLoginFail(true));
+    saveLogin(loginUser);
   };
   useEffect(() => {
     if (loginSuccess) {
