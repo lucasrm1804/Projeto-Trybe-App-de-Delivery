@@ -3,6 +3,11 @@ import { Link } from 'react-router-dom';
 import styles from './index.module.css';
 
 function Header() {
+  const getName = () => {
+    const user = JSON.parse(localStorage.getItem('user'));
+    return user.name;
+  };
+
   return (
     <header>
       <nav className={ styles.navbar }>
@@ -15,12 +20,19 @@ function Header() {
         </div>
 
         <div data-testid="customer_products__element-navbar-user-full-name">
-          <span>Nome Usuario</span>
+          <span>{ getName() }</span>
         </div>
-
-        <div data-testid="customer_products__element-navbar-link-logout">
-          <Link to="/login">Sair</Link>
-        </div>
+        <Link
+          to="/login"
+        >
+          <button
+            type="button"
+            data-testid="customer_products__element-navbar-link-logout"
+            onClick={ () => localStorage.setItem('user', []) }
+          >
+            Sair
+          </button>
+        </Link>
       </nav>
     </header>
   );

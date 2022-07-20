@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import ButtonForm from '../ButtonForm';
 import InputForm from '../InputForm';
 import AppContext from '../../context/appContext';
-import saveLogin from '../../services/saveLogin';
+// import saveLogin from '../../services/saveLogin';
 
 export default function FormLogin() {
   const [passwordInput, setPasswordInput] = useState('');
@@ -29,11 +29,11 @@ export default function FormLogin() {
       setLoginSuccess(true);
     })
       .catch(() => setLoginFail(true));
-    saveLogin(loginUser);
   };
   useEffect(() => {
     if (loginSuccess) {
       history.push('/customer/products');
+      localStorage.setItem('user', JSON.stringify(loginUser));
     }
   });
   useEffect(() => {

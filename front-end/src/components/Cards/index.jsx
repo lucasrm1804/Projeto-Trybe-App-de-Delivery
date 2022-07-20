@@ -13,6 +13,7 @@ export default function ProductCards(props) {
         {valor}
       </span>
       <img
+        style={ { width: '150px' } }
         data-testid={ `customer_products__img-card-bg-image-${id}` }
         src={ img }
         alt={ name }

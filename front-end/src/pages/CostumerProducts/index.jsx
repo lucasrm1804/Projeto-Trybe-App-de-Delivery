@@ -19,7 +19,6 @@ export default function CustomerProducts() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  console.log(products);
 
   return (
     <>
