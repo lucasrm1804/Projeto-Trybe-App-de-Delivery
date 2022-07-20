@@ -5,6 +5,32 @@ import styles from './index.module.css';
 export default function ProductCards(props) {
   const { id, valor, img, name } = props;
   const [count, setCount] = useState(0);
+
+  const addQuantity = () => {
+    setCount(count + 1);
+    const productList = JSON.parse(localStorage.getItem('carrinho'));
+    productList.forEach((p) => {
+      if (p.id === id) {
+        p.quantity += 1;
+      }
+    });
+    localStorage.setItem('carrinho', JSON.stringify(productList));
+  };
+
+  const removeQuantity = () => {
+    setCount(count - 1);
+    if (count <= 0) {
+      setCount(0);
+    }
+    const productList = JSON.parse(localStorage.getItem('carrinho'));
+    productList.forEach((p) => {
+      if (p.id === id && count > 0) {
+        p.quantity -= 1;
+      }
+    });
+    localStorage.setItem('carrinho', JSON.stringify(productList));
+  };
+
   return (
     <div className={ styles.cardDiv }>
       <span
@@ -22,7 +48,7 @@ export default function ProductCards(props) {
       <button
         data-testid={ `customer_products__button-card-rm-item-${id}` }
         onClick={ () => {
-          setCount(count - 1);
+          removeQuantity();
         } }
         type="button"
       >
@@ -39,8 +65,9 @@ export default function ProductCards(props) {
       <button
         data-testid={ `customer_products__button-card-add-item-${id}` }
         onClick={ () => {
-          setCount(count + 1);
+          addQuantity();
         } }
+        id={ id }
         type="button"
       >
         +

@@ -20,6 +20,38 @@ export default function CustomerProducts() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    // const verifyLs = localStorage.getItem('carrinho');
+    const ls = [];
+    products.map((product) => (
+      ls.push({
+        id: product.id,
+        name: product.name,
+        quantity: 0,
+        value: product.price,
+      })
+    ));
+    localStorage.setItem('carrinho', JSON.stringify(ls));
+  });
+
+  const [price, setPrice] = useState(0);
+
+  const totalPrice = () => {
+    const ls = JSON.parse(localStorage.getItem('carrinho'));
+    return ls.map((p) => Number(p.quantity) * Number(p.value))
+      .reduce((curr, acc) => {
+        console.log(curr);
+        acc += curr;
+        return acc;
+      }, 0);
+  };
+
+  useEffect(() => {
+    setPrice(totalPrice());
+  }, [setPrice]);
+
+  console.log(price);
+
   return (
     <>
       <Header />
@@ -35,7 +67,7 @@ export default function CustomerProducts() {
           </div>
         ))}
       </div>
-      <CartButton />
+      <CartButton price={ price } />
     </>
   );
 }

@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styles from './index.module.css';
 
 function CartButton() {
-  const [price] = useState(0);
   return (
     <button
       data-testid="customer_products__button-cart"
