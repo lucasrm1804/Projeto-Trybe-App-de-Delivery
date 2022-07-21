@@ -8,11 +8,29 @@ export default function ProductCards(props) {
 
   const addQuantity = () => {
     setCount(count + 1);
+  };
+
+  const removeQuantity = () => {
+    setCount(count - 1);
+    const productList = JSON.parse(localStorage.getItem('carrinho'));
+    if (count <= 0) {
+      setCount(0);
+    } else {
+      productList.forEach((p) => {
+        if (p.id === id && count > 0) {
+          p.quantity = count;
+        }
+      });
+      localStorage.setItem('carrinho', JSON.stringify(productList));
+    }
+  };
+
+  const setQuantity = () => {
     const productList = JSON.parse(localStorage.getItem('carrinho'));
     if (productList.some((p) => p.id === id)) {
       productList.forEach((p) => {
         if (p.id === id) {
-          p.quantity += 1;
+          p.quantity = count;
         }
       });
       localStorage.setItem('carrinho', JSON.stringify(productList));
@@ -27,26 +45,21 @@ export default function ProductCards(props) {
     }
   };
 
-  const removeQuantity = () => {
-    setCount(count - 1);
-    const productList = JSON.parse(localStorage.getItem('carrinho'));
-    if (count <= 0) {
-      setCount(0);
-    } else {
-      productList.forEach((p) => {
-        if (p.id === id && count > 0) {
-          p.quantity -= 1;
-        }
-      });
-      localStorage.setItem('carrinho', JSON.stringify(productList));
-    }
-  };
-
   useEffect(() => {
+    setQuantity();
     const productList = JSON.parse(localStorage.getItem('carrinho'));
     const removeProduct = productList.filter((p) => p.quantity !== 0);
     localStorage.setItem('carrinho', JSON.stringify(removeProduct));
   }, [count]);
+
+  const handleChange = (event) => {
+    const { value } = event.target;
+    if (value < 0) {
+      setCount(0);
+    } else {
+      setCount(Number(value));
+    }
+  };
 
   return (
     <div className={ styles.cardDiv }>
@@ -73,7 +86,9 @@ export default function ProductCards(props) {
       </button>
       <label htmlFor="quantity">
         <input
+          type="text"
           value={ count }
+          onChange={ handleChange }
           id="quantity"
           name="quantity"
           data-testid={ `customer_products__input-card-quantity-${id}` }
