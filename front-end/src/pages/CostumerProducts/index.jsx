@@ -21,17 +21,7 @@ export default function CustomerProducts() {
   }, []);
 
   useEffect(() => {
-    // const verifyLs = localStorage.getItem('carrinho');
-    const ls = [];
-    products.map((product) => (
-      ls.push({
-        id: product.id,
-        name: product.name,
-        quantity: 0,
-        value: product.price,
-      })
-    ));
-    localStorage.setItem('carrinho', JSON.stringify(ls));
+    localStorage.setItem('carrinho', JSON.stringify([]));
   });
 
   const [price, setPrice] = useState(0);

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import styles from './index.module.css';
 
@@ -9,27 +9,44 @@ export default function ProductCards(props) {
   const addQuantity = () => {
     setCount(count + 1);
     const productList = JSON.parse(localStorage.getItem('carrinho'));
-    productList.forEach((p) => {
-      if (p.id === id) {
-        p.quantity += 1;
-      }
-    });
-    localStorage.setItem('carrinho', JSON.stringify(productList));
+    if (productList.some((p) => p.id === id)) {
+      productList.forEach((p) => {
+        if (p.id === id) {
+          p.quantity += 1;
+        }
+      });
+      localStorage.setItem('carrinho', JSON.stringify(productList));
+    } else {
+      productList.push({
+        id,
+        name,
+        quantity: 1,
+        value: valor,
+      });
+      localStorage.setItem('carrinho', JSON.stringify(productList));
+    }
   };
 
   const removeQuantity = () => {
     setCount(count - 1);
+    const productList = JSON.parse(localStorage.getItem('carrinho'));
     if (count <= 0) {
       setCount(0);
+    } else {
+      productList.forEach((p) => {
+        if (p.id === id && count > 0) {
+          p.quantity -= 1;
+        }
+      });
+      localStorage.setItem('carrinho', JSON.stringify(productList));
     }
-    const productList = JSON.parse(localStorage.getItem('carrinho'));
-    productList.forEach((p) => {
-      if (p.id === id && count > 0) {
-        p.quantity -= 1;
-      }
-    });
-    localStorage.setItem('carrinho', JSON.stringify(productList));
   };
+
+  useEffect(() => {
+    const productList = JSON.parse(localStorage.getItem('carrinho'));
+    const removeProduct = productList.filter((p) => p.quantity !== 0);
+    localStorage.setItem('carrinho', JSON.stringify(removeProduct));
+  }, [count]);
 
   return (
     <div className={ styles.cardDiv }>
