@@ -1,10 +1,9 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import appContext from '../../context/appContext';
 import Row from './Row';
 
 function Table() {
-  const { setTotalPrice } = useContext(appContext);
-  const [pedido, setPedido] = useState([]);
+  const { setTotalPrice, pedido, setPedido } = useContext(appContext);
 
   useEffect(() => {
     const carrinho = JSON.parse(localStorage.getItem('carrinho'));

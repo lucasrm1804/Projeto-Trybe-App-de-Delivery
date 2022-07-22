@@ -1,13 +1,65 @@
 import React, { useContext, useEffect, useState } from 'react';
+import axios from 'axios';
+import { useHistory } from 'react-router-dom';
 import Header from '../../components/Header';
 import Table from '../../components/Table/Table';
 import appContext from '../../context/appContext';
 
 function Checkout() {
-  const { totalPrice } = useContext(appContext);
+  const history = useHistory();
+  const { totalPrice, pedido, setPedido } = useContext(appContext);
   const [address, setAddress] = useState('');
   const [addressNumber, setAddressNumber] = useState('');
   const [disabled, setDisabled] = useState(true);
+
+  //   {
+  //     "order": {
+  //       "totalPrice": "50.00",
+  //       "deliveryAddress": "Rua 123",
+  //       "deliveryNumber": "4680",
+  //       "saleDate": "1970-01-01 00:00:01.000000",
+  //       "status": "pendente",
+  //       "userId": "3",
+  //       "sellerId": "2"
+  //     },
+  //     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InplYmlyaXRhQGVtYWlsLmNvbSIsImlhdCI6MTY1ODUyMTgyNiwiZXhwIjoxNjU5MTI2NjI2fQ.xBDwpXrJtDliyNCyLGHPpf3uXSY6CUHprKCWo1q_sMo"
+  // }
+
+  const lsToken = () => {
+    const ls = JSON.parse(localStorage.getItem('user'));
+    const { token } = ls;
+    return token;
+  };
+
+  // const dezenove = 19;
+
+  const handleButton = async () => {
+    await axios.post('http://localhost:3001/customer/checkout', {
+      order: {
+        totalPrice,
+        deliveryAddress: address,
+        deliveryNumber: addressNumber,
+        saleDate: '1970-01-01 00:00:01.000000',
+        // saleDate: Date().toISOString().slice(0, dezenove).replace('T', ' '),
+        status: 'pendente',
+        userId: 3,
+        sellerId: 2,
+      },
+      token: lsToken(),
+    }).then((newOrder) => {
+      setPedido([...pedido, newOrder.data]);
+    }).catch((err) => {
+      console.log(err);
+    });
+  };
+
+  const saleId = async () => {
+    const id = await handleButton();
+    if (id) {
+      history.push(`customer/orders/${id}`);
+    }
+    return id;
+  };
 
   useEffect(() => {
     if (address && addressNumber) {
@@ -66,6 +118,7 @@ function Checkout() {
           text="FINALIZAR PEDIDO"
           data-testid="customer_checkout__button-submit-order"
           disabled={ disabled }
+          onClick={ () => saleId() }
         >
           FINALIZAR PEDIDO
         </button>
