@@ -4,7 +4,7 @@ const { verifyToken } = require('../middleware/login.JWT');
 const createSela = async (token, order) => {
   try {
     if (verifyToken(token)) {
-      const sale = await models.sale.create(order);
+      const sale = await models.Sale.create(order);
       return sale.id;  
     }
     throw new Error('invalid token');

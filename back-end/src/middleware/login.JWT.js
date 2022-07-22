@@ -9,8 +9,8 @@ const generateToken = (email) => {
   return token;
 };
 
-const verifyToken = async (token) => {
-  const tokenStatus = jwt.verify(token, await readFileSync(secretKey));
+const verifyToken = (token) => {
+  const tokenStatus = jwt.verify(token, secretKey);
   return tokenStatus;
 };
 
