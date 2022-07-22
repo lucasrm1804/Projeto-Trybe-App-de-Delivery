@@ -1,5 +1,5 @@
 const loginUser = require('../services/login');
-const token = require('../middleware/login.JWT');
+const { generateToken } = require('../middleware/login.JWT');
 
 const OK = 200;
 const ERROR = 404;
@@ -16,7 +16,7 @@ const loginController = async (req, res) => {
             name,
             email,
             role,
-            token: token(email),
+            token: generateToken(email),
         });
     } catch (error) {
         return res.status(INTERNAL_ERROR).json({ message: `${error}` });
