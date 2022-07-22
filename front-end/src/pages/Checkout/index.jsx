@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Header from '../../components/Header';
-import Table from '../../components/Table';
+import Table from '../../components/Table/Table';
 
 function Checkout({ total }) {
   return (
@@ -9,27 +9,7 @@ function Checkout({ total }) {
       <Header />
       <div>
         <h2>Finalizar Pedido</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>Item</th>
-              <th>Descrição</th>
-              <th>Quantidade</th>
-              <th>Valor Unitário</th>
-              <th>Sub-total</th>
-              <th>Remover Item</th>
-            </tr>
-          </thead>
-          <tbody>
-            <Table
-              item="item"
-              description="descricao"
-              quantity="0"
-              unitaryValue="0"
-              subTotal="0"
-            />
-          </tbody>
-        </table>
+        <Table />
         <span data-testid="customer_checkout__element-order-total-price">
           Total: R$
           { total }
@@ -42,6 +22,7 @@ function Checkout({ total }) {
         <span>P. Vendedor Responsável:</span>
         <select
           id="seller"
+          aria-label="seller"
           name="seller"
           data-testid="customer_checkout__select-seller"
         />
@@ -64,15 +45,13 @@ function Checkout({ total }) {
         />
       </label>
       <div>
-        <label htmlFor="button">
-          <button
-            type="button"
-            text="FINALIZAR PEDIDO"
-            datat-testid="customer_checkout__button-submit-order"
-          >
-            FINALIZAR PEDIDO
-          </button>
-        </label>
+        <button
+          type="button"
+          text="FINALIZAR PEDIDO"
+          datat-testid="customer_checkout__button-submit-order"
+        >
+          FINALIZAR PEDIDO
+        </button>
       </div>
     </>
   );
