@@ -1,6 +1,4 @@
 .cardContainer {
   display: flex;
+  flex-wrap: wrap;
 }
-
-/* .cardDiv {
-} */

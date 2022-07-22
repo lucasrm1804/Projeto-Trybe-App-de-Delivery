@@ -1,9 +1,21 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useContext, useEffect, useState } from 'react';
 import Header from '../../components/Header';
 import Table from '../../components/Table/Table';
+import appContext from '../../context/appContext';
 
-function Checkout({ total }) {
+function Checkout() {
+  const { totalPrice } = useContext(appContext);
+  const [address, setAddress] = useState('');
+  const [addressNumber, setAddressNumber] = useState('');
+  const [disabled, setDisabled] = useState(true);
+
+  useEffect(() => {
+    if (address && addressNumber) {
+      setDisabled(false);
+    } else {
+      setDisabled(true);
+    }
+  }, [address, addressNumber]);
   return (
     <>
       <Header />
@@ -12,7 +24,7 @@ function Checkout({ total }) {
         <Table />
         <span data-testid="customer_checkout__element-order-total-price">
           Total: R$
-          { total }
+          { totalPrice.toFixed(2).toString().replace(/\./, ',')}
         </span>
       </div>
       <div>
@@ -32,6 +44,8 @@ function Checkout({ total }) {
         <input
           id="address"
           type="text"
+          value={ address }
+          onChange={ ({ target }) => setAddress(target.value) }
           placeholder="Digite seu endereço"
           data-testid="customer_checkout__input-address"
         />
@@ -39,16 +53,19 @@ function Checkout({ total }) {
       <label htmlFor="number">
         <span>Número</span>
         <input
+          onChange={ ({ target }) => setAddressNumber(target.value) }
           id="number"
-          type="text"
-          datat-testid="customer_checkout__input-addressNumber"
+          type="number"
+          value={ addressNumber }
+          data-testid="customer_checkout__input-addressNumber"
         />
       </label>
       <div>
         <button
           type="button"
           text="FINALIZAR PEDIDO"
-          datat-testid="customer_checkout__button-submit-order"
+          data-testid="customer_checkout__button-submit-order"
+          disabled={ disabled }
         >
           FINALIZAR PEDIDO
         </button>
@@ -56,9 +73,5 @@ function Checkout({ total }) {
     </>
   );
 }
-
-Checkout.propTypes = {
-  total: PropTypes.string.isRequired,
-};
 
 export default Checkout;
