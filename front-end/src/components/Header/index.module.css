@@ -3,3 +3,8 @@
   display: flex;
   justify-content: space-around;
 }
+.header {
+  display: block;
+  position: absolute;
+  
+}
