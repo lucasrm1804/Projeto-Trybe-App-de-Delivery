@@ -7,7 +7,13 @@ import appContext from '../../context/appContext';
 
 function Checkout() {
   const history = useHistory();
-  const { totalPrice, pedido, setPedido } = useContext(appContext);
+  const {
+    totalPrice,
+    pedido,
+    // setPedido,
+    globalSaleId,
+    setGlobalSaleId,
+  } = useContext(appContext);
   const [address, setAddress] = useState('');
   const [addressNumber, setAddressNumber] = useState('');
   const [disabled, setDisabled] = useState(true);
@@ -33,7 +39,7 @@ function Checkout() {
 
   // const dezenove = 19;
 
-  const handleButton = async () => {
+  const createOrder = async () => {
     await axios.post('http://localhost:3001/customer/checkout', {
       order: {
         totalPrice,
@@ -47,16 +53,28 @@ function Checkout() {
       },
       token: lsToken(),
     }).then((newOrder) => {
-      setPedido([...pedido, newOrder.data]);
+      setGlobalSaleId(newOrder.data);
+      // setPedido([...pedido, newOrder.data]);
     }).catch((err) => {
       console.log(err);
     });
   };
 
-  const saleId = async () => {
-    const id = await handleButton();
+  const createSalesProducts = async () => {
+    await axios.post('http://localhost:3001/customer/salesProduct', { // nome de exemplo
+      saleId: globalSaleId,
+      productId: pedido.id,
+      quantity: pedido.quantity,
+    }).catch((err) => {
+      console.log(err);
+    });
+  };
+
+  const getSaleId = async () => {
+    const id = await createOrder();
     if (id) {
-      history.push(`customer/orders/${id}`);
+      createSalesProducts();
+      return history.push(`customer/orders/${id}`);
     }
     return id;
   };
@@ -68,6 +86,7 @@ function Checkout() {
       setDisabled(true);
     }
   }, [address, addressNumber]);
+
   return (
     <>
       <Header />
@@ -118,7 +137,7 @@ function Checkout() {
           text="FINALIZAR PEDIDO"
           data-testid="customer_checkout__button-submit-order"
           disabled={ disabled }
-          onClick={ () => saleId() }
+          onClick={ () => getSaleId() }
         >
           FINALIZAR PEDIDO
         </button>
