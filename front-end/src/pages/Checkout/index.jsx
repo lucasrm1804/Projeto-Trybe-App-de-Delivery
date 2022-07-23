@@ -18,6 +18,7 @@ function Checkout() {
   const [addressNumber, setAddressNumber] = useState('');
   const [disabled, setDisabled] = useState(true);
   const [saller, setSaller] = useState([]);
+  const [sallerId, setSallerId] = useState('');
 
   //   {
   //     "order": {
@@ -59,7 +60,7 @@ function Checkout() {
         // saleDate: Date().toISOString().slice(0, dezenove).replace('T', ' '),
         status: 'pendente',
         userId: 3,
-        sellerId: 2,
+        sellerId: sallerId,
       },
       token: lsToken(),
     }).then((newOrder) => {
@@ -93,6 +94,8 @@ function Checkout() {
     getSaller();
   }, [setSaller]);
 
+  console.log(sallerId);
+
   useEffect(() => {
     if (address && addressNumber) {
       setDisabled(false);
@@ -122,8 +125,18 @@ function Checkout() {
           aria-label="seller"
           name="seller"
           data-testid="customer_checkout__select-seller"
+          value={ sallerId }
+          onChange={ ({ target }) => setSallerId(target.value) }
         >
-          { saller.map((s) => <option key={ s.id }>{s.id}</option>)}
+          <option>Selecione um vendedor</option>
+          { saller.map((s) => (
+            <option
+              key={ s.id }
+              value={ s.id }
+            >
+              {s.id}
+            </option>
+          ))}
         </select>
       </label>
       <label htmlFor="address">
