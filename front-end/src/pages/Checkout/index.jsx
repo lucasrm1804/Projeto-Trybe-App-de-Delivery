@@ -9,7 +9,7 @@ function Checkout() {
   const history = useHistory();
   const {
     totalPrice,
-    // pedido,
+    pedido,
     // setPedido,
   } = useContext(appContext);
   const [address, setAddress] = useState('');
@@ -44,6 +44,7 @@ function Checkout() {
         userId: 3,
         sellerId: sallerId,
       },
+      items: pedido,
     }, {
       headers: {
         authorization: lsToken(),

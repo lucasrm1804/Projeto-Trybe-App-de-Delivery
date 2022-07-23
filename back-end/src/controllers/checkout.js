@@ -2,9 +2,10 @@ const selaService = require('../services/checkout');
 
 const createSela = async (req, res) => {
   try {
-    const { order } = req.body;
+    const { order, items } = req.body;
     const { authorization } = req.headers;
     const saleId = await selaService.createSela(authorization, order);
+    await selaService.setSalesProducts(saleId, items);
     return res.status(201).json(saleId);  
   } catch (error) {
     return res.status(400).json({ message: error.message });
