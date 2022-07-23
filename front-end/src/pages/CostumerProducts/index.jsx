@@ -25,8 +25,10 @@ export default function CustomerProducts() {
   });
 
   return (
-    <>
-      <Header />
+    <div>
+      <div className={ styles.divHeader }>
+        <Header />
+      </div>
       <div className={ styles.cardContainer }>
         {products && products.map((product, i) => (
           <div key={ i }>
@@ -40,6 +42,6 @@ export default function CustomerProducts() {
         ))}
       </div>
       <CartButton />
-    </>
+    </div>
   );
 }
