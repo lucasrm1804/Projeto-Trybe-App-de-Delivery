@@ -11,8 +11,6 @@ function Checkout() {
     totalPrice,
     // pedido,
     // setPedido,
-    // globalSaleId,
-    setGlobalSaleId,
   } = useContext(appContext);
   const [address, setAddress] = useState('');
   const [addressNumber, setAddressNumber] = useState('');
@@ -20,26 +18,11 @@ function Checkout() {
   const [saller, setSaller] = useState([]);
   const [sallerId, setSallerId] = useState('');
 
-  //   {
-  //     "order": {
-  //       "totalPrice": "50.00",
-  //       "deliveryAddress": "Rua 123",
-  //       "deliveryNumber": "4680",
-  //       "saleDate": "1970-01-01 00:00:01.000000",
-  //       "status": "pendente",
-  //       "userId": "3",
-  //       "sellerId": "2"
-  //     },
-  //     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InplYmlyaXRhQGVtYWlsLmNvbSIsImlhdCI6MTY1ODUyMTgyNiwiZXhwIjoxNjU5MTI2NjI2fQ.xBDwpXrJtDliyNCyLGHPpf3uXSY6CUHprKCWo1q_sMo"
-  // }
-
   const lsToken = () => {
     const ls = JSON.parse(localStorage.getItem('user'));
     const { token } = ls;
     return token;
   };
-
-  // const dezenove = 19;
 
   const getSaller = async () => {
     await axios.get('http://localhost:3001/customer/checkout')
@@ -51,7 +34,7 @@ function Checkout() {
   };
 
   const createOrder = async () => {
-    await axios.post('http://localhost:3001/customer/checkout', {
+    const result = await axios.post('http://localhost:3001/customer/checkout', {
       order: {
         totalPrice,
         deliveryAddress: address,
@@ -62,39 +45,27 @@ function Checkout() {
         userId: 3,
         sellerId: sallerId,
       },
-      token: lsToken(),
-    }).then((newOrder) => {
-      setGlobalSaleId(newOrder.data);
-      // setPedido([...pedido, newOrder.data]);
-    }).catch((err) => {
+    }, {
+      headers: {
+        authorization: lsToken(),
+      },
+    }).then((newOrder) => newOrder.data).catch((err) => {
       console.log(err);
     });
+    return result;
   };
-
-  // const createSalesProducts = async () => {
-  //   await axios.post('http://localhost:3001/customer/salesProduct', { // nome de exemplo
-  //     saleId: globalSaleId,
-  //     productId: pedido.id,
-  //     quantity: pedido.quantity,
-  //   }).catch((err) => {
-  //     console.log(err);
-  //   });
-  // };
 
   const getSaleId = async () => {
     const id = await createOrder();
     if (id) {
-      createSalesProducts();
       return history.push(`customer/orders/${id}`);
     }
-    return id;
+    return Number(globalSaleId);
   };
 
   useEffect(() => {
     getSaller();
   }, [setSaller]);
-
-  console.log(sallerId);
 
   useEffect(() => {
     if (address && addressNumber) {
