@@ -13,6 +13,7 @@ const createSela = async (req, res) => {
 const getSeller = async (_req, res) => {
   try {
     const sallers = await selaService.getSeller();
+    console.log(sallers);
     return res.status(200).json(sallers);
   } catch (error) {
     return res.status(400).json({ message: error.message });

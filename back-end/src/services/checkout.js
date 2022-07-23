@@ -15,7 +15,7 @@ const createSela = async (token, order) => {
 
 const getSeller = async () => {
   try {
-    const users = await models.user.findAll();
+    const users = await models.User.findAll();
     const sellers = users.filter((u) => u.role === 'seller');
     return sellers;
   } catch (error) {

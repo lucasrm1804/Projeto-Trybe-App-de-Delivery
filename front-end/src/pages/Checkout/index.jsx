@@ -9,14 +9,15 @@ function Checkout() {
   const history = useHistory();
   const {
     totalPrice,
-    pedido,
+    // pedido,
     // setPedido,
-    globalSaleId,
+    // globalSaleId,
     setGlobalSaleId,
   } = useContext(appContext);
   const [address, setAddress] = useState('');
   const [addressNumber, setAddressNumber] = useState('');
   const [disabled, setDisabled] = useState(true);
+  const [saller, setSaller] = useState([]);
 
   //   {
   //     "order": {
@@ -39,6 +40,15 @@ function Checkout() {
 
   // const dezenove = 19;
 
+  const getSaller = async () => {
+    await axios.get('http://localhost:3001/customer/checkout')
+      .then((response) => {
+        setSaller(response.data);
+      }).catch((err) => {
+        console.log(err);
+      });
+  };
+
   const createOrder = async () => {
     await axios.post('http://localhost:3001/customer/checkout', {
       order: {
@@ -60,15 +70,15 @@ function Checkout() {
     });
   };
 
-  const createSalesProducts = async () => {
-    await axios.post('http://localhost:3001/customer/salesProduct', { // nome de exemplo
-      saleId: globalSaleId,
-      productId: pedido.id,
-      quantity: pedido.quantity,
-    }).catch((err) => {
-      console.log(err);
-    });
-  };
+  // const createSalesProducts = async () => {
+  //   await axios.post('http://localhost:3001/customer/salesProduct', { // nome de exemplo
+  //     saleId: globalSaleId,
+  //     productId: pedido.id,
+  //     quantity: pedido.quantity,
+  //   }).catch((err) => {
+  //     console.log(err);
+  //   });
+  // };
 
   const getSaleId = async () => {
     const id = await createOrder();
@@ -78,6 +88,10 @@ function Checkout() {
     }
     return id;
   };
+
+  useEffect(() => {
+    getSaller();
+  }, [setSaller]);
 
   useEffect(() => {
     if (address && addressNumber) {
@@ -108,7 +122,9 @@ function Checkout() {
           aria-label="seller"
           name="seller"
           data-testid="customer_checkout__select-seller"
-        />
+        >
+          { saller.map((s) => <option key={ s.id }>{s.id}</option>)}
+        </select>
       </label>
       <label htmlFor="address">
         <span>Endereço</span>
