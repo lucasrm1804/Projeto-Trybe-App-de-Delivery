@@ -58,7 +58,7 @@ function Checkout() {
   const getSaleId = async () => {
     const id = await createOrder();
     if (id) {
-      return history.push(`customer/orders/${id}`);
+      return history.push(`/customer/orders/${id}`);
     }
     return Number(globalSaleId);
   };

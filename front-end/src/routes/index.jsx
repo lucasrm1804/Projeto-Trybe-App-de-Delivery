@@ -5,6 +5,7 @@ import CostumerProducts from '../pages/CostumerProducts';
 import Register from '../pages/Register/index';
 import NotFound from '../pages/NotFound';
 import Checkout from '../pages/Checkout';
+import OrderDetails from '../pages/OrderDetails';
 
 export default function Routes() {
   return (
@@ -17,6 +18,7 @@ export default function Routes() {
       </Route>
       <Route path="/customer/products" component={ CostumerProducts } />
       <Route path="/customer/checkout" component={ Checkout } />
+      <Route exact path="/customer/orders/:id" component={ OrderDetails } />
     </Switch>
   );
 }
