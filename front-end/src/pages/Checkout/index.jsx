@@ -11,25 +11,12 @@ function Checkout() {
     totalPrice,
     pedido,
     // setPedido,
-    globalSaleId,
-    setGlobalSaleId,
   } = useContext(appContext);
   const [address, setAddress] = useState('');
   const [addressNumber, setAddressNumber] = useState('');
   const [disabled, setDisabled] = useState(true);
-
-  //   {
-  //     "order": {
-  //       "totalPrice": "50.00",
-  //       "deliveryAddress": "Rua 123",
-  //       "deliveryNumber": "4680",
-  //       "saleDate": "1970-01-01 00:00:01.000000",
-  //       "status": "pendente",
-  //       "userId": "3",
-  //       "sellerId": "2"
-  //     },
-  //     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InplYmlyaXRhQGVtYWlsLmNvbSIsImlhdCI6MTY1ODUyMTgyNiwiZXhwIjoxNjU5MTI2NjI2fQ.xBDwpXrJtDliyNCyLGHPpf3uXSY6CUHprKCWo1q_sMo"
-  // }
+  const [saller, setSaller] = useState([]);
+  const [sallerId, setSallerId] = useState('');
 
   const lsToken = () => {
     const ls = JSON.parse(localStorage.getItem('user'));
@@ -37,47 +24,48 @@ function Checkout() {
     return token;
   };
 
-  // const dezenove = 19;
+  const getSaller = async () => {
+    await axios.get('http://localhost:3001/customer/checkout')
+      .then((response) => {
+        setSaller(response.data);
+      }).catch((err) => {
+        console.log(err);
+      });
+  };
 
   const createOrder = async () => {
-    await axios.post('http://localhost:3001/customer/checkout', {
+    const result = await axios.post('http://localhost:3001/customer/checkout', {
       order: {
         totalPrice,
         deliveryAddress: address,
         deliveryNumber: addressNumber,
-        saleDate: '1970-01-01 00:00:01.000000',
-        // saleDate: Date().toISOString().slice(0, dezenove).replace('T', ' '),
-        status: 'pendente',
+        saleDate: new Date().toISOString(),
+        status: 'Pendente',
         userId: 3,
-        sellerId: 2,
+        sellerId: sallerId,
       },
-      token: lsToken(),
-    }).then((newOrder) => {
-      setGlobalSaleId(newOrder.data);
-      // setPedido([...pedido, newOrder.data]);
-    }).catch((err) => {
+      items: pedido,
+    }, {
+      headers: {
+        authorization: lsToken(),
+      },
+    }).then((newOrder) => newOrder.data).catch((err) => {
       console.log(err);
     });
-  };
-
-  const createSalesProducts = async () => {
-    await axios.post('http://localhost:3001/customer/salesProduct', { // nome de exemplo
-      saleId: globalSaleId,
-      productId: pedido.id,
-      quantity: pedido.quantity,
-    }).catch((err) => {
-      console.log(err);
-    });
+    return result;
   };
 
   const getSaleId = async () => {
     const id = await createOrder();
     if (id) {
-      createSalesProducts();
       return history.push(`customer/orders/${id}`);
     }
-    return id;
+    return Number(globalSaleId);
   };
+
+  useEffect(() => {
+    getSaller();
+  }, [setSaller]);
 
   useEffect(() => {
     if (address && addressNumber) {
@@ -108,7 +96,19 @@ function Checkout() {
           aria-label="seller"
           name="seller"
           data-testid="customer_checkout__select-seller"
-        />
+          value={ sallerId }
+          onChange={ ({ target }) => setSallerId(target.value) }
+        >
+          <option>Selecione um vendedor</option>
+          { saller.map((s) => (
+            <option
+              key={ s.id }
+              value={ s.id }
+            >
+              {s.id}
+            </option>
+          ))}
+        </select>
       </label>
       <label htmlFor="address">
         <span>Endereço</span>
