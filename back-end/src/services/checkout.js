@@ -22,9 +22,8 @@ const setSalesProducts = async (saleId, items) => {
         quantity: p.quantity,
       }
      ));
-  //  const newSelesProducts = await Promise.all(arrProduct);
-  await Promise.all(arrProduct.map((item) => (
-    // console.log(item)
+  return await Promise.all(arrProduct.map((item) => (
+    // console.log(item) - cerificando se o item retorna em forma de objeto com todas as informações
     models.SalesProducts.create(item)
    )));
   } catch (error) {
