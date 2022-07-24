@@ -23,7 +23,6 @@ const setSalesProducts = async (saleId, items) => {
       }
      ));
   return await Promise.all(arrProduct.map((item) => (
-    // console.log(item) - cerificando se o item retorna em forma de objeto com todas as informações
     models.SalesProducts.create(item)
    )));
   } catch (error) {
