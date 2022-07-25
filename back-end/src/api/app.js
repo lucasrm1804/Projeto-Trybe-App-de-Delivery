@@ -8,6 +8,7 @@ const login = require('../routes/login');
 const checkout = require('../routes/checkout');
 const orderDetails = require('../routes/orderDetails');
 const adm = require('../routes/adm');
+const order = require('../routes/order');
 
 const app = express();
 app.use(cors());
@@ -21,6 +22,7 @@ app.use(product);
 app.use(checkout);
 app.use(orderDetails);
 app.use(adm);
+app.use(order);
 
 app.get('/coffee', (_req, res) => res.status(418).end());
 
