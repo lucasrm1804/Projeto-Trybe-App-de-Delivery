@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import appContext from '../../context/appContext';
-import Row from './Row';
+import RowOrderDetails from './Row';
 
 function TableOrderDetails() {
   const { setTotalPrice, pedido, setPedido } = useContext(appContext);
@@ -38,7 +38,7 @@ function TableOrderDetails() {
       </thead>
       <tbody>
         {pedido.map((item, index) => (
-          <Row
+          <RowOrderDetails
             key={ item.id }
             item={ index + 1 }
             index={ index }

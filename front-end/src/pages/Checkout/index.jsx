@@ -10,7 +10,7 @@ function Checkout() {
   const {
     totalPrice,
     pedido,
-    // setPedido,
+    setOrderId,
   } = useContext(appContext);
   const [address, setAddress] = useState('');
   const [addressNumber, setAddressNumber] = useState('');
@@ -57,6 +57,7 @@ function Checkout() {
 
   const getSaleId = async () => {
     const id = await createOrder();
+    setOrderId(id);
     if (id) {
       return history.push(`/customer/orders/${id}`);
     }

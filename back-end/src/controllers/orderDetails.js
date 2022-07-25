@@ -1,9 +1,9 @@
 const selaOrderDetails = require('../services/orderDetails');
 
-const getSellerProduct = async (req, res) => {
+const getSale = async (req, res) => {
   try {
-    const { orderId } = req.params;
-    const orderDetails = await selaOrderDetails.getSellerProduct(orderId);
+    const { id } = req.params;
+    const orderDetails = await selaOrderDetails.getSale(id);
     return res.status(200).json(orderDetails);
   } catch (error) {
     return res.status(400).json({ message: error.message });
@@ -11,5 +11,5 @@ const getSellerProduct = async (req, res) => {
 };
 
 module.exports = {
-    getSellerProduct,
+    getSale,
 };

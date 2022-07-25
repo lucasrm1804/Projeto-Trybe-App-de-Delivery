@@ -1,10 +1,10 @@
 const models = require('../database/models');
 
-const getSellerProduct = async (orderId) => {
+const getSale = async (orderId) => {
     try {
-      const order = await models.SalesProducts.findAll({
-        where: { selaId: orderId },
-        include: [{ model: models.Sale, as: 'saleId' }],
+      const order = await models.Sale.findOne({
+        where: { id: orderId },
+        include: [{ model: models.User, as: 'User' }],
       });
       return order;
     } catch (error) {
@@ -13,5 +13,5 @@ const getSellerProduct = async (orderId) => {
   };
 
 module.exports = {
-  getSellerProduct,
+  getSale,
 };
