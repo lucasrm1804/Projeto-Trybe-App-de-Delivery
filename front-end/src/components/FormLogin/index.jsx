@@ -32,6 +32,7 @@ export default function FormLogin() {
   };
   useEffect(() => {
     if (loginUser.email === 'adm@deliveryapp.com') {
+      localStorage.setItem('adm', JSON.stringify(loginUser));
       return history.push('/admin/manage');
     }
     if (loginSuccess) {

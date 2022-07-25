@@ -21,13 +21,27 @@ export default function Adm() {
       });
   };
 
+  const lsToken = () => {
+    const ls = JSON.parse(localStorage.getItem('adm'));
+    const { token } = ls;
+    return token;
+  };
+
   async function create() {
-    axios.post('http://localhost:3001/adm/manage', {
-      name,
-      email,
-      password,
-      role,
-    }).then((newUser) => {
+    axios.post(
+      'http://localhost:3001/adm/manage',
+      {
+        name,
+        email,
+        password,
+        role,
+      },
+      {
+        headers: {
+          Authorization: lsToken(),
+        },
+      },
+    ).then((newUser) => {
       setLoginUser(newUser.data);
       setRegister(true);
     }).catch((err) => {
