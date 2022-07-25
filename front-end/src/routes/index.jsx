@@ -5,6 +5,8 @@ import CostumerProducts from '../pages/CostumerProducts';
 import Register from '../pages/Register/index';
 import NotFound from '../pages/NotFound';
 import Order from '../pages/Order';
+import Checkout from '../pages/Checkout';
+import Adm from '../pages/Adm';
 
 export default function Routes() {
   return (
@@ -17,6 +19,8 @@ export default function Routes() {
         <Redirect to="/login" />
       </Route>
       <Route path="/customer/products" component={ CostumerProducts } />
+      <Route path="/customer/checkout" component={ Checkout } />
+      <Route path="/admin/manage" component={ Adm } />
     </Switch>
   );
 }

@@ -24,27 +24,11 @@ export default function CustomerProducts() {
     localStorage.setItem('carrinho', JSON.stringify([]));
   });
 
-  const [price, setPrice] = useState(0);
-
-  const totalPrice = () => {
-    const ls = JSON.parse(localStorage.getItem('carrinho'));
-    return ls.map((p) => Number(p.quantity) * Number(p.value))
-      .reduce((curr, acc) => {
-        console.log(curr);
-        acc += curr;
-        return acc;
-      }, 0);
-  };
-
-  useEffect(() => {
-    setPrice(totalPrice());
-  }, [setPrice]);
-
-  console.log(price);
-
   return (
-    <>
-      <Header />
+    <div>
+      <div className={ styles.divHeader }>
+        <Header />
+      </div>
       <div className={ styles.cardContainer }>
         {products && products.map((product, i) => (
           <div key={ i }>
@@ -57,7 +41,7 @@ export default function CustomerProducts() {
           </div>
         ))}
       </div>
-      <CartButton price={ price } />
-    </>
+      <CartButton />
+    </div>
   );
 }

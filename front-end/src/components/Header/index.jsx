@@ -9,7 +9,7 @@ function Header() {
   };
 
   return (
-    <header>
+    <header className="header">
       <nav className={ styles.navbar }>
         <div data-testid="customer_products__element-navbar-link-products">
           <Link to="/customer/products">PRODUTOS</Link>

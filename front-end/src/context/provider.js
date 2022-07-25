@@ -4,9 +4,16 @@ import AppContext from './appContext';
 
 function Provider({ children }) {
   const [loginUser, setLoginUser] = useState([]);
+  const [totalPrice, setTotalPrice] = useState(0);
+  const [pedido, setPedido] = useState([]);
 
   const contextValue = useMemo(() => ({ loginUser,
-    setLoginUser }), [loginUser]);
+    setLoginUser,
+    totalPrice,
+    setTotalPrice,
+    pedido,
+    setPedido,
+  }), [loginUser, totalPrice, pedido]);
   return (
     <AppContext.Provider value={ contextValue }>
       {children}
