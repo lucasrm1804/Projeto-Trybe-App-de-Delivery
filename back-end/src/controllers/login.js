@@ -8,11 +8,12 @@ const INTERNAL_ERROR = 500;
 const loginController = async (req, res) => {
     try {
         const result = await loginUser(req.body);
-        const { email, name, role } = result;
+        const { email, name, role, id } = result;
         if (result === 0) {
             return res.status(ERROR).json({ message: 'Not found' });
         }
         return res.status(OK).json({
+            id,
             name,
             email,
             role,

@@ -15,7 +15,7 @@ export default function Routes() {
       <Route path="/login" component={ Login } />
       <Route path="/register" component={ Register } />
       <Route path="/customer/product" component={ NotFound } />
-      <Route path="/customer/orders" component={ Order } />
+      <Route exact path="/customer/orders" component={ Order } />
       <Route exact path="/">
         <Redirect to="/login" />
       </Route>

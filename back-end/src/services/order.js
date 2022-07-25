@@ -1,10 +1,8 @@
 const models = require('../database/models');
 
-const getOrderByUser = async (id) => {
+const getOrderByUser = async () => {
     try {
-      const order = await models.Sale.findAll({
-        where: { userId: id },
-      });
+      const order = await models.Sale.findAll();
       return order;
     } catch (error) {
       console.error(error);
@@ -13,4 +11,5 @@ const getOrderByUser = async (id) => {
 
 module.exports = {
   getOrderByUser,
+
 };

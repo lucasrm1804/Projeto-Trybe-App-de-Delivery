@@ -34,6 +34,7 @@ function Checkout() {
   };
 
   const createOrder = async () => {
+    const { id } = JSON.parse(localStorage.getItem('user'));
     const result = await axios.post('http://localhost:3001/customer/checkout', {
       order: {
         totalPrice,
@@ -41,7 +42,7 @@ function Checkout() {
         deliveryNumber: addressNumber,
         saleDate: new Date().toISOString(),
         status: 'Pendente',
-        userId: 3,
+        userId: id,
         sellerId: sallerId,
       },
       items: pedido,
@@ -52,7 +53,6 @@ function Checkout() {
     }).then((newOrder) => newOrder.data).catch((err) => {
       console.log(err);
     });
-    console.log(result);
     return result;
   };
 
