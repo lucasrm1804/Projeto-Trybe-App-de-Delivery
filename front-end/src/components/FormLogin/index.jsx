@@ -19,6 +19,7 @@ export default function FormLogin() {
     return emailRegex.test(email);
   };
   const history = useHistory();
+
   const handleClick = async () => {
     axios.post('http://localhost:3001/login', {
       email: emailInput,
@@ -30,6 +31,9 @@ export default function FormLogin() {
       .catch(() => setLoginFail(true));
   };
   useEffect(() => {
+    if (loginUser.email === 'adm@deliveryapp.com') {
+      return history.push('/admin/manage');
+    }
     if (loginSuccess) {
       history.push('/customer/products');
       localStorage.setItem('user', JSON.stringify(loginUser));

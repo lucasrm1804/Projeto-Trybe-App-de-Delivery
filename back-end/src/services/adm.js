@@ -1,6 +1,5 @@
 const crypto = require('crypto');
 const models = require('../database/models');
-const { generateToken } = require('../middleware/login.JWT');
 
 const getAll = async () => {
   try {
@@ -25,7 +24,7 @@ const registerUser = async ({ name, email, password, role }) => {
   try {
     const passwordCrypto = crypto.createHash('md5').update(password).digest('hex');
     const newUser = await models.User.create({
-      name, email, password: passwordCrypto, role, token: generateToken(email),
+      name, email, password: passwordCrypto, role,
     });
     return newUser;  
   } catch (error) {
