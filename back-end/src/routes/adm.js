@@ -1,10 +1,11 @@
 const express = require('express');
 
-const loginController = require('../controllers/login');
 const admController = require('../controllers/adm');
 
 const router = express.Router();
-router.get('/login', admController.getAdm);
-router.post('/login', loginController);
+
+router
+  .get('/adm/manage', admController.getAll)
+  .post('/adm/manage', admController.registerUser);
 
 module.exports = router;
