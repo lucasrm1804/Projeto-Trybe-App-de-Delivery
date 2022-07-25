@@ -13,17 +13,36 @@ const createSela = async (token, order) => {
   }
 };
 
+const setSalesProducts = async (saleId, items) => {
+  try {
+    const arrProduct = items.map((p) => (
+      {
+        saleId: Number(saleId),
+        productId: Number(p.id),
+        quantity: p.quantity,
+      }
+     ));
+  return await Promise.all(arrProduct.map((item) => (
+    // console.log(item) - cerificando se o item retorna em forma de objeto com todas as informações
+    models.SalesProducts.create(item)
+   )));
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 const getSeller = async () => {
   try {
-    const users = await models.user.findAll();
+    const users = await models.User.findAll();
     const sellers = users.filter((u) => u.role === 'seller');
     return sellers;
   } catch (error) {
-    console.error(error); 
+    console.error('test', error); 
   }
 };
 
 module.exports = {
   createSela,
+  setSalesProducts,
   getSeller,
 };
