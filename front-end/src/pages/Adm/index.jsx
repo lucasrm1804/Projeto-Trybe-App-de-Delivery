@@ -10,6 +10,8 @@ export default function Adm() {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [role, setRole] = React.useState('');
+  const [isError, setIsError] = React.useState(false);
+  const [error, setError] = React.useState('');
 
   const getAll = async () => {
     await axios.get('http://localhost:3001/adm/manage')
@@ -71,6 +73,16 @@ export default function Adm() {
   React.useEffect(() => {
     getAll();
   }, []);
+
+  const messageError = () => {
+    if (isError === true) {
+      return (
+        <p data-testid="admin_manage__element-invalid-register">
+          { error }
+        </p>
+      );
+    }
+  };
 
   return (
     <div>
@@ -205,6 +217,9 @@ export default function Adm() {
           ))}
         </tbody>
       </table>
+      {
+        messageError()
+      }
     </div>
   );
 }
