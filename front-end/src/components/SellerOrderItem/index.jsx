@@ -9,14 +9,14 @@ export default function SellerOrderItem({
     <div>
       <Link
         to={ `/seller/orders/${id}` }
-        data-testid={ `seller_orders__element-order-date-${id}` }
+        data-testid={ `seller_orders__element-order-id-${id}` }
       >
         <p data-testid={ `seller_orders__element-order-date-${index}` }>
           Pedido:
           {id}
         </p>
         <p
-          data-testid={ `seller_orders__element-delivery-status-${index}` }
+          data-testid={ `seller_orders__element-delivery-status-${id}` }
         >
           {status}
         </p>
