@@ -33,11 +33,11 @@ export default function FormLogin() {
   useEffect(() => {
     if (loginUser.email === 'adm@deliveryapp.com') {
       localStorage.setItem('adm', JSON.stringify(loginUser));
-      return history.push('/admin/manage');
+      history.push('/admin/manage');
     }
-    if (loginUser.email === 'fulana@deliveryapp.com') {
-      // localStorage.setItem('user', JSON.stringify(loginUser)); // pode descomentar caso necessário, mas o ID dela fica chumbado no SellerOrder
-      return history.push('/seller/orders');
+    if (loginUser.role === 'seller') {
+      localStorage.setItem('user', JSON.stringify(loginUser)); // pode descomentar caso necessário, mas o ID dela fica chumbado no SellerOrder
+      history.push('/seller/orders');
     }
     if (loginSuccess) {
       history.push('/customer/products');

@@ -2,12 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-export default function SellerOrderItem(props) {
-  const { id, status, data, totalPrice, index, deliveryAddress, deliveryNumber } = props;
+export default function SellerOrderItem({
+  id, status, data, totalPrice, index, deliveryAddress, deliveryNumber }) {
   const d = 10;
   return (
     <div>
-      <Link to={ `/seller/orders/${id}` }>
+      <Link
+        to={ `/seller/orders/${id}` }
+        data-testid={ `seller_orders__element-order-date-${id}` }
+      >
         <p data-testid={ `seller_orders__element-order-date-${index}` }>
           Pedido:
           {id}

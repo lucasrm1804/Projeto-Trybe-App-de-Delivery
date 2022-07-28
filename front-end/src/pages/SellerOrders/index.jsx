@@ -8,32 +8,34 @@ export default function SellerOrders() {
   // const { id } = JSON.parse(localStorage.getItem('user'));
 
   const getOrders = async () => {
-    axios.get('http://localhost:3001/seller/orders').then((response) => setOrders(response.data))
-      .catch(() => console.log('error aqui'));
+    await axios.get('http://localhost:3001/seller/orders')
+      .then((response) => {
+        setOrders(response.data);
+      })
+      .catch((error) => console.log(error.message.data));
   };
 
-  console.log(orders);
-
-  useEffect(() => {
+  React.useEffect(() => {
     getOrders();
   }, []);
+
+  console.log(orders);
 
   return (
     <div>
       <Header />
-      {orders.length > 0 && orders.filter((o) => o.sellerId === 2)
-        .map((order, index) => (
-          <SellerOrderItem
-            key={ index }
-            id={ order.id }
-            totalPrice={ order.totalPrice }
-            status={ order.status }
-            data={ order.saleDate }
-            index={ index }
-            deliveryAddress={ order.deliveryAddress }
-            deliveryNumber={ order.deliveryNumber }
-          />
-        ))}
+      {orders.length > 0 && orders.map((order, index) => (
+        <SellerOrderItem
+          key={ index }
+          id={ order.id }
+          totalPrice={ order.totalPrice }
+          status={ order.status }
+          data={ order.saleDate }
+          index={ index }
+          deliveryAddress={ order.deliveryAddress }
+          deliveryNumber={ order.deliveryNumber }
+        />
+      ))}
     </div>
   );
 }
