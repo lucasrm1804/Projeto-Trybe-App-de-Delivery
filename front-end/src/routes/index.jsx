@@ -7,22 +7,26 @@ import NotFound from '../pages/NotFound';
 import Order from '../pages/Order';
 import Checkout from '../pages/Checkout';
 import OrderDetails from '../pages/OrderDetails';
+import SellerOrder from '../pages/SellerOrders';
+import SellerOrderDetails from '../pages/SellerOrderDetails';
 import Adm from '../pages/Adm';
 
 export default function Routes() {
   return (
     <Switch>
-      <Route path="/login" component={ Login } />
-      <Route path="/register" component={ Register } />
-      <Route path="/customer/product" component={ NotFound } />
+      <Route exact path="/login" component={ Login } />
+      <Route exact path="/register" component={ Register } />
+      <Route exact path="/customer/product" component={ NotFound } />
       <Route exact path="/customer/orders" component={ Order } />
       <Route exact path="/">
         <Redirect to="/login" />
       </Route>
-      <Route path="/customer/products" component={ CostumerProducts } />
-      <Route path="/customer/checkout" component={ Checkout } />
+      <Route exact path="/customer/products" component={ CostumerProducts } />
+      <Route exact path="/customer/checkout" component={ Checkout } />
       <Route exact path="/customer/orders/:id" component={ OrderDetails } />
-      <Route path="/admin/manage" component={ Adm } />
+      <Route exact path="/seller/orders" component={ SellerOrder } />
+      <Route exact path="/seller/orders/:id" component={ SellerOrderDetails } />
+      <Route exact path="/admin/manage" component={ Adm } />
     </Switch>
   );
 }

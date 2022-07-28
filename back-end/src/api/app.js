@@ -9,6 +9,8 @@ const checkout = require('../routes/checkout');
 const orderDetails = require('../routes/orderDetails');
 const adm = require('../routes/adm');
 const order = require('../routes/order');
+const sellerOrder = require('../routes/sellerOrder');
+const sellerOrderDetails = require('../routes/sellerOrderDetails');
 
 const app = express();
 app.use(cors());
@@ -23,6 +25,8 @@ app.use(checkout);
 app.use(orderDetails);
 app.use(adm);
 app.use(order);
+app.use(sellerOrder);
+app.use(sellerOrderDetails);
 
 app.get('/coffee', (_req, res) => res.status(418).end());
 
